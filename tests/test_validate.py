@@ -6,6 +6,28 @@ from pipeline.validate import validate_unique_ids
 from pipeline.validate import validate_not_null
 from pipeline.validate import validate_range
 
+@pytest.fixture
+def valid_df() -> pd.DataFrame:
+    return pd.DataFrame(
+        {
+            "incident_id": [1, 2, 3, 4],
+            "district": [
+                "San Antonio",
+                "Austin",
+                "Dallas",
+                "El Paso",
+            ],
+            "incident_type": [
+                "Vehicle",
+                "Injury",
+                "Vehicle",
+                "Near Miss",
+            ],
+            "severity": [2, 4, 1, 0],
+        }
+    )
+
+
 def test_validate_columns_accepts_valid_dataframe() -> None:
     df = pd.DataFrame(
         {
@@ -82,14 +104,11 @@ def test_validate_not_null_rejects_null_data() -> None:
         validate_not_null(df,{'incident_id','district'})
 
 
-def test_validate_range_accepts_valid_values() -> None:
-    df = pd.DataFrame(
-        {
-            'severity' : [1 ,2 ,3 ,4]
-        }
-    )
+def test_validate_range_accepts_valid_values(
+        valid_df: pd.DataFrame
+) -> None:
 
-    validate_range(df,'severity',0,5)
+    validate_range(valid_df, 'severity', 0, 5)
 
 
 
@@ -97,10 +116,10 @@ def test_validate_range_accepts_valid_values() -> None:
 def test_validate_range_rejects_invalid_values() -> None:
     df = pd.DataFrame(
         {
-            'severity' : [1 ,-2 ,3 ,7]
+            'severity' : [1, -2, 3, 7]
         }
     )
 
     with pytest.raises(ValueError):
-        validate_range(df,'severity',0,5)
+        validate_range(df, 'severity', 0, 5)
         
