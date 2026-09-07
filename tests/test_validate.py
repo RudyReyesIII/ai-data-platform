@@ -4,6 +4,7 @@ import pytest
 from pipeline.validate import validate_columns
 from pipeline.validate import validate_unique_ids
 from pipeline.validate import validate_not_null
+from pipeline.validate import validate_range
 
 def test_validate_columns_accepts_valid_dataframe() -> None:
     df = pd.DataFrame(
@@ -79,3 +80,27 @@ def test_validate_not_null_rejects_null_data() -> None:
 
     with pytest.raises(ValueError):
         validate_not_null(df,{'incident_id','district'})
+
+
+def test_validate_range_accepts_valid_values() -> None:
+    df = pd.DataFrame(
+        {
+            'severity' : [1 ,2 ,3 ,4]
+        }
+    )
+
+    validate_range(df,'severity',0,5)
+
+
+
+
+def test_validate_range_rejects_invalid_values() -> None:
+    df = pd.DataFrame(
+        {
+            'severity' : [1 ,-2 ,3 ,7]
+        }
+    )
+
+    with pytest.raises(ValueError):
+        validate_range(df,'severity',0,5)
+        
