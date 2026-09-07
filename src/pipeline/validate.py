@@ -12,3 +12,13 @@ def validate_columns(
         raise ValueError(
             f"Missing required columns: {sorted(missing_cols)}"
         )
+
+def validate_unique_ids(
+    df: pd.DataFrame,
+    id_column: str,
+) -> None:
+
+    duplicates = df[id_column].duplicated()
+    
+    if duplicates.any():
+        raise ValueError("Duplicates found in {df[id_column].name}")
