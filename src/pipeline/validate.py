@@ -18,7 +18,14 @@ def validate_unique_ids(
     id_column: str,
 ) -> None:
 
-    duplicates = df[id_column].duplicated()
+    duplicates = df[id_column].duplicated(keep=False)
+    
     
     if duplicates.any():
-        raise ValueError("Duplicates found in {df[id_column].name}")
+
+        duplicate_ids = (
+            df.loc[duplicates, id_column]
+            .unique()
+            .tolist()
+        )
+        raise ValueError(f"Duplicates found in {id_column}: {duplicate_ids}")

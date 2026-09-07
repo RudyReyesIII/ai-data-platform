@@ -1,7 +1,8 @@
 from pathlib import Path
 
 from pipeline.ingest import load_csv
-from pipeline.validate import validate_columns validate_unique_ids
+from pipeline.validate import validate_columns
+from pipeline.validate import validate_unique_ids
 
 
 def main() -> None:
