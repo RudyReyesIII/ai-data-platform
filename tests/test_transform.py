@@ -28,7 +28,7 @@ def test_transform_incidents_severity() -> None:
     result = transform_incidents(df)
     assert result['severity_label'].astype(str).tolist() == ["Low", "Low", "Medium", "Medium", "High", "High"]
 
-def test_transform_incidents_df_unchanged() -> None:
+def test_transform_incidents_does_not_modify_input() -> None:
     df = pd.DataFrame(
         {
             "incident_id": [1],
