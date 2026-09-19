@@ -5,6 +5,7 @@ from pipeline.validate import validate_columns
 from pipeline.validate import validate_unique_ids
 from pipeline.validate import validate_not_null
 from pipeline.validate import validate_range
+from pipeline.transform import transform_incidents
 
 
 def main() -> None:
@@ -24,6 +25,8 @@ def main() -> None:
         {"incident_id", "district", "incident_type", "severity"},
     )
     validate_range(df, 'severity', 0, 5)
+
+    df = transform_incidents(df)
 
     print(df)
 
