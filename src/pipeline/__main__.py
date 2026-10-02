@@ -1,4 +1,3 @@
-import os
 import logging
 
 from pipeline.config import INPUT_PATH, OUTPUT_PATH
@@ -11,7 +10,7 @@ from pipeline.validate import validate_range
 from pipeline.transform import transform_incidents
 from pipeline.load import save_parquet
 
-
+logging.basicConfig(level=logging.INFO)
 
 logger = logging.getLogger(__name__)
 
